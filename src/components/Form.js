@@ -11,13 +11,6 @@ function Form(props) {
     const todos = useContext(TodosContext);
     console.log(todos)
 
-    //Use Effect Hook To Save Data to Local Storage
-    React.useEffect(() => {
-        const jsonTodos = JSON.stringify(todos)
-        //string to reference data --- todos is the data being stored
-        localStorage.setItem("todos",jsonTodos)
-    }, [todos])
-
     //on form submit 
     function handleSubmitTodo(event) {
         event.preventDefault();

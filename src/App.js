@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect} from 'react';
 import './App.css';
 import Form from './components/Form'
 import EditAndDeleteButtons from './components/EditAndDeleteButtons';
@@ -15,7 +15,7 @@ function App() {
   const [todoEditing, setTodoEditing] = React.useState(null);
   const [editedTodoName, setEditedTodoName] = React.useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     //retrieving data using ref. string "todos"
     const accessData = localStorage.getItem("todos")
     //parsing data
@@ -26,6 +26,13 @@ function App() {
       setTodos(loadedTodos)
     }
   }, [])
+
+  //Use Effect Hook To Save Data to Local Storage
+  useEffect(() => {
+    const jsonTodos = JSON.stringify(todos)
+    //string to reference data --- todos is the data being stored
+    localStorage.setItem("todos",jsonTodos)
+  }, [todos])
 
 
 
@@ -74,13 +81,13 @@ function App() {
       </TodosContext.Provider>
 
 
-        {todos.map((todo) => <div key={todo.id}>
+        {todos.map((todo) => <div className="todo-div" key={todo.id}>
 
           {todoEditing === todo.id ? (<input 
             type="text" 
             onChange={(event) => setEditedTodoName(event.target.value)} 
             value={editedTodoName}
-          />) : (<div><input 
+          />) : (<div className='todo-div'><input 
             type="checkbox" 
             onChange={() => completeTodo(todo.id)} 
             checked={todo.completed}
@@ -89,10 +96,10 @@ function App() {
           )}
 
           {editedTodoName === "" ? (
-            <div>
+            <div className='todos'>
               <TodoContext.Provider value={todo}>
                 {/* Edit & Delete Buttons */}
-                <EditAndDeleteButtons 
+                <EditAndDeleteButtons
                 deleteTodo={deleteTodo}
                 setTodoEditing={setTodoEditing}
                 />

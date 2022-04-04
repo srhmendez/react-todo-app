@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.todoText{
+  font-weight: 600;
+}
+div.todo-div{
+  display:flex;
+  width:80%;
+  justify-content: flex-start;
+  padding:15px 20px;
+}
