@@ -1,0 +1,16 @@
+form.submit-form{
+    padding-bottom:30px;
+}
+.add-todo-btn{
+    color:blue;
+    background-color: azure;
+    border-radius: 7px;
+    border:1px navy solid;
+    padding: 10px 20px;
+    margin-left:1%;
+}
+input {
+    padding-top:10px;
+    padding-bottom:10px;
+    width:40%;
+}

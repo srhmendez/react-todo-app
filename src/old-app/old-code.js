@@ -1,11 +1,6 @@
-import React, { createContext } from 'react';
+import React from 'react';
+import _uniqueId from 'lodash/uniqueId';
 import './App.css';
-import Form from './components/Form'
-import EditAndDeleteButtons from './components/EditAndDeleteButtons';
-
-//useContext to pass todos up through children components
-export const TodosContext = createContext();
-export const TodoContext = createContext();
 
 function App() {
 
@@ -27,7 +22,32 @@ function App() {
     }
   }, [])
 
+  //Use Effect Hook To Save Data to Local Storage
+  React.useEffect(() => {
+    const jsonTodos = JSON.stringify(todos)
+    //string to reference data --- todos is the data being stored
+    localStorage.setItem("todos",jsonTodos)
+  }, [todos])
 
+  //on form submit 
+  function handleSubmitTodo(event) {
+    event.preventDefault();
+
+    const id =  _uniqueId();
+    console.log(id)
+
+    const newTodo = {
+      id: id,
+      task: todo,
+      completed: false,
+    }
+
+    //setting the value of todos array to the current array, then adding the new todo at the end.
+    setTodos([...todos].concat(newTodo))
+
+    //setting default value of setTodo to empty string.
+    setTodo('')
+  }
 
   function deleteTodo(id){
     const todosAfterDelete = [...todos].filter((todo) => id !== todo.id)
@@ -64,15 +84,18 @@ function App() {
   return (
     <div className="App">
       <h1>Todos</h1>
-      <TodosContext.Provider value={todos}>
-        <Form 
-          setTodo={setTodo}
-          setTodos={setTodos}
-          todo={todo}
-          todos={todos}
-        />
-      </TodosContext.Provider>
+      <form onSubmit={handleSubmitTodo}>
 
+        <input 
+          type='text' 
+          onChange={(event) => setTodo(event.target.value)} 
+          value={todo}
+        />
+        <button 
+          type='submit'>Add Todo
+        </button>
+
+      </form>
 
         {todos.map((todo) => <div key={todo.id}>
 
@@ -90,13 +113,9 @@ function App() {
 
           {editedTodoName === "" ? (
             <div>
-              <TodoContext.Provider value={todo}>
-                {/* Edit & Delete Buttons */}
-                <EditAndDeleteButtons 
-                deleteTodo={deleteTodo}
-                setTodoEditing={setTodoEditing}
-                />
-              </TodoContext.Provider>
+              {/* Edit & Delete Buttons */}
+              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+              <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
             </div>
           ) : (
             <div>
