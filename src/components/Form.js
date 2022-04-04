@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import _uniqueId from 'lodash/uniqueId';
 import SubmitNewTodoBTN from './SubmitNewTodoBTN';
 import { TodosContext } from '../App';
 import './Form.css';
@@ -14,8 +13,8 @@ function Form(props) {
     //on form submit 
     function handleSubmitTodo(event) {
         event.preventDefault();
-
-        const id =  _uniqueId();
+        
+        const id =  new Date().valueOf();
         console.log(id)
 
         const newTodo = {
