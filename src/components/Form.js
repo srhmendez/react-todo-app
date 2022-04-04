@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useContext } from 'react';
 import _uniqueId from 'lodash/uniqueId';
 import SubmitNewTodoBTN from './SubmitNewTodoBTN';
 import { TodosContext } from '../App';
